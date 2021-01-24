@@ -149,7 +149,7 @@ class Grille {
     //Tant qu'il y'a plus d'un alignement, on réajuste les cookie
     while (this.nbAlignements !== 0) {
       //on fait "redescendre" les cookie
-      this.comblerCaseVide();
+      this.RemplireCasesVide();
 
       //On crée de nouveau cookie qu'on ajoute suite à ceux supprimé 
       this.ajoutCookiesAbsent();
@@ -217,7 +217,6 @@ class Grille {
     // triplet testé sera composé des cookies aux indexes 6, 7 et 8 (on va de 0 à 9)
 
     for (let l = 0; l <= this.nbColonnes - 3; l++) {
-      //console.log("Je teste les indexes " + l + " " + (l + 1) + " " + (l + 2));
       let cookie1 = ligneGrille[l];
       let cookie2 = ligneGrille[l + 1];
       let cookie3 = ligneGrille[l + 2];
@@ -225,8 +224,11 @@ class Grille {
       if (cookie1.type === cookie2.type && cookie1.type === cookie3.type) {
         // on marque les trois
         cookie1.supprimer();
+        console.log("ligne : "+cookie1.ligne+"colonne : "+ cookie1.colonne);
         cookie2.supprimer();
+        console.log("ligne : "+cookie2.ligne+"colonne : "+ cookie2.colonne);
         cookie3.supprimer();
+        console.log("ligne : "+cookie3.ligne+"colonne : "+ cookie3.colonne);
         this.nbAlignements++;
         this.nbpoints+=10;
       }
@@ -242,10 +244,13 @@ class Grille {
       let cookie3 = this.tabCookies[ligne + 2][colonne];
 
       if (cookie1.type === cookie2.type && cookie1.type === cookie3.type) {
-        // on marque les trois
+        // Trois cases aligner
         cookie1.supprimer();
+        console.log("ligne : "+cookie1.ligne+"colonne : "+ cookie1.colonne);
         cookie2.supprimer();
+        console.log("ligne : "+cookie2.ligne+"colonne : "+ cookie2.colonne);
         cookie3.supprimer();
+        console.log("ligne : "+cookie3.ligne+"colonne : "+ cookie3.colonne);
         this.nbAlignements++;
         this.nbpoints+=10;
       }
@@ -253,29 +258,28 @@ class Grille {
   }
 
 
-  comblerCaseVide() {
+  RemplireCasesVide() {
     //On parcours chaque case de la grille en partant du bas
     for (let colonne = 0; colonne <= this.nbColonnes - 1; colonne++) {
-      console.log("ya");
       for (let ligne = this.nbLignes - 1; ligne >= 0; ligne--) {
 
 
         let cookie1 = this.tabCookies[ligne][colonne];
-
+        console.log("ligne : "+ligne+"colonne : "+ colonne);
         //Lorsqu'un Cookie a été supprimé, on va parcourir la colonne ligne par ligne pour les faire "redescendre"
         if (cookie1.EstSupprimer()) {
-          for (let tmp = ligne; tmp >= 0; tmp--) {
+          for (let tampon = ligne; tampon >= 0; tampon--) {
 
-            let cookie2 = this.tabCookies[tmp][colonne];
-
-            //On les fait "redescendre" en fesant un swap entre la case vide, et la case qui doit descendre
+            let cookie2 = this.tabCookies[tampon][colonne];
+            console.log("tampon : "+tampon+"colonne : "+ colonne);
+            //On fait descendre les Cookies en fesant un swap entre la case vide, et la case qui doit descendre
             //On fait réapparaitre le cookie qui a avait disparu initialement, et on fait disparaître le cookie du haut.
             if (!cookie2.EstSupprimer()) {
               cookie1.annulertoSuprimmer();
               cookie1.type = cookie2.type;
               cookie1.htmlImage.src = cookie2.htmlImage.src;
               cookie2.supprimer();
-              tmp = -2;
+              tampon = -2;
             }
           }
         }
