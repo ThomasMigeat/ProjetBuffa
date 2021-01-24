@@ -47,11 +47,11 @@ class Cookie {
     this.htmlImage.classList.add("cookie-cachee");
   }
 
-  annulerASupprimer() {
+  annulertoSuprimmer() {
     this.htmlImage.classList.remove("cookie-cachee");
   }
 
-  isASupprimer() {
+  EstSupprimer() {
     return this.htmlImage.classList.contains("cookie-cachee");
   }
 
