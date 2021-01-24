@@ -145,18 +145,18 @@ class Grille {
 
     // on a swappé, est-ce qu'on a un ou plusieurs alignement ?
     this.detecteTousLesAlignements();
-    
+
     //Tant qu'il y'a plus d'un alignement, on réajuste les cookie
-    while(this.nbAlignements !== 0){
+    while (this.nbAlignements !== 0) {
       //on fait "redescendre" les cookie
-    this.comblerCaseVide();
+      this.comblerCaseVide();
 
-    //On crée de nouveau cookie qu'on ajoute suite à ceux supprimé 
-    this.ajoutCookiesAbsent();
+      //On crée de nouveau cookie qu'on ajoute suite à ceux supprimé 
+      this.ajoutCookiesAbsent();
 
-    this.detecteTousLesAlignements();
+      this.detecteTousLesAlignements();
     }
-    
+
   }
   /**
    * Initialisation du niveau de départ. Le paramètre est le nombre de cookies différents
@@ -195,7 +195,7 @@ class Grille {
 
   detecteTousLesAlignements() {
     this.nbAlignements = 0;
-
+    this.nbpoints =0;
     // pour chaque ligne on va appeler detecteAlignementLigne et idem pour chaque colonne
     for (let l = 0; l < this.nbLignes; l++) {
       this.detecteAlignementLigne(l);
@@ -228,6 +228,7 @@ class Grille {
         cookie2.supprimer();
         cookie3.supprimer();
         this.nbAlignements++;
+        this.nbpoints+=10;
       }
     }
   }
@@ -246,57 +247,72 @@ class Grille {
         cookie2.supprimer();
         cookie3.supprimer();
         this.nbAlignements++;
+        this.nbpoints+=10;
       }
     }
   }
 
 
-comblerCaseVide()
-{
-  //On parcours chaque case de la grille en partant du bas
-  for(let colonne = 0 ; colonne <= this.nbColonnes-1 ; colonne++){ console.log("ya");
-    for(let ligne = this.nbLignes-1 ; ligne >= 0 ; ligne--){
-     
-      
-      let cookie1 = this.tabCookies[ligne][colonne];
+  comblerCaseVide() {
+    //On parcours chaque case de la grille en partant du bas
+    for (let colonne = 0; colonne <= this.nbColonnes - 1; colonne++) {
+      console.log("ya");
+      for (let ligne = this.nbLignes - 1; ligne >= 0; ligne--) {
 
-      //Lorsqu'un Cookie a été supprimé, on va parcourir la colonne ligne par ligne pour les faire "redescendre"
-      if(cookie1.EstSupprimer()){
-        for(let tmp = ligne ; tmp >= 0 ; tmp--){
 
-          let cookie2 = this.tabCookies[tmp][colonne];
+        let cookie1 = this.tabCookies[ligne][colonne];
 
-          //On les fait "redescendre" en fesant un swap entre la case vide, et la case qui doit descendre
-          //On fait réapparaitre le cookie qui a avait disparu initialement, et on fait disparaître le cookie du haut.
-          if(!cookie2.EstSupprimer()){
-            cookie1.annulertoSuprimmer();
-            cookie1.type = cookie2.type;
-            cookie1.htmlImage.src = cookie2.htmlImage.src;
-            cookie2.supprimer();
-            tmp = -2;
+        //Lorsqu'un Cookie a été supprimé, on va parcourir la colonne ligne par ligne pour les faire "redescendre"
+        if (cookie1.EstSupprimer()) {
+          for (let tmp = ligne; tmp >= 0; tmp--) {
+
+            let cookie2 = this.tabCookies[tmp][colonne];
+
+            //On les fait "redescendre" en fesant un swap entre la case vide, et la case qui doit descendre
+            //On fait réapparaitre le cookie qui a avait disparu initialement, et on fait disparaître le cookie du haut.
+            if (!cookie2.EstSupprimer()) {
+              cookie1.annulertoSuprimmer();
+              cookie1.type = cookie2.type;
+              cookie1.htmlImage.src = cookie2.htmlImage.src;
+              cookie2.supprimer();
+              tmp = -2;
+            }
           }
         }
-    }
-  }
-}
-}
-
-ajoutCookiesAbsent()
-{
-  //On parcours toute les cases de la grille
-  for(let colonne = 0 ; colonne <= this.nbColonnes-1 ; colonne++){ 
-    for(let ligne = this.nbLignes-1 ; ligne >= 0 ; ligne--){
-      let cookie1 = this.tabCookies[ligne][colonne];
-      
-      //Dès qu'un cookie est dis "supprimé", alors on génère un nouveau Cookie aléatoirement
-      if(cookie1.EstSupprimer()){
-        cookie1.type = Math.floor(Math.random() * this.nbCookiesDifferents);
-        cookie1.htmlImage.src = Cookie.urlsImagesNormales[cookie1.type];
-        
-        cookie1.annulertoSuprimmer();
       }
     }
   }
-}
+
+  ajoutCookiesAbsent() {
+    //On parcours toute les cases de la grille
+    for (let colonne = 0; colonne <= this.nbColonnes - 1; colonne++) {
+      for (let ligne = this.nbLignes - 1; ligne >= 0; ligne--) {
+        let cookie1 = this.tabCookies[ligne][colonne];
+
+        //Dès qu'un cookie est dis "supprimé", alors on génère un nouveau Cookie aléatoirement
+        if (cookie1.EstSupprimer()) {
+          cookie1.type = Math.floor(Math.random() * this.nbCookiesDifferents);
+          cookie1.htmlImage.src = Cookie.urlsImagesNormales[cookie1.type];
+
+          cookie1.annulertoSuprimmer();
+        }
+      }
+    }
+  }
+  //Retourne de la partie en seconde
+  retourneTemps() {
+    var startTime = new Date().getTime();
+    var elapsedTime = 0;
+    elapsedTime = new Date().getTime() - startTime;
+    return elapsedTime;
+  }
+
+  //Retourne le nombre de point dans la partie
+  retournePoint(){
+    return this.nbpoints;
+  }
+
+
+
 
 }
