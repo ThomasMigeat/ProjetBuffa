@@ -9,11 +9,6 @@
     <script src="js/cookie.js"></script>
     <script src="js/utils.js"></script>
     <script src="lib/lodash.js"></script>
-    <script type="text/javascript">
-        var startTime = new Date().getTime();
-        var elapsedTime = 0;
-        elapsedTime = new Date().getTime() - startTime;
-     </script>
 </head>
 
 <body>
@@ -21,10 +16,16 @@
     <H1>Jeu type candy crush... version avec utilisation de divs</H1>
     <div id="main">
         <div id="infos">
-            <div>Temps : <script type="text/javascript">
-                document.write(elapsedTime)
-             </script> </div>
-            <div>Score : 0</div>
+            <div>Temps :
+                <script type="text/javascript">
+                   // document.write(grille.retourneTemps());
+                </script>
+            </div>
+            <div>Score :
+                <script type="text/javascript">
+                   // document.write(grille.retournePoint());
+                </script>
+            </div>
             <div>niveau : 0</div>
         </div>
         <div id="grille">
